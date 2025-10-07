@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sorpresa de tu hijo 💚</title>
 <style>
+  /* ===== Estilo Base ===== */
   body {
     margin: 0;
     overflow-x: hidden;
@@ -26,15 +27,15 @@
     z-index: 1;
   }
 
-  /* Pantallas */
+  /* ===== Pantallas ===== */
   #password-screen, #start-screen {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    max-width: 400px;
     width: 90%;
+    max-width: 400px;
   }
 
   input[type="password"] {
@@ -79,42 +80,39 @@
     display: none;
   }
 
-  /* Galería */
+  /* ===== Galería ===== */
   .gallery-layout {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 25px;
-    padding: 40px 10px;
+    padding: 60px 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .top-row, .bottom-row, .middle-row {
     display: flex;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap; /* permite que elementos bajen si no caben */
+    flex-wrap: wrap;
   }
 
   .top-row img, .bottom-row img, .middle-row video {
     width: 100%;
-    max-width: 250px; /* ajustable para escritorio */
+    max-width: 250px;
     height: auto;
     border-radius: 15px;
     box-shadow: 0 0 20px #00ff99;
-    transition: transform 0.3s;
+    transition: transform 0.4s ease-in-out;
   }
 
   .top-row img, .bottom-row img {
     animation: zoomIn 5s ease-in-out infinite alternate;
   }
 
-  .top-row img:hover, .bottom-row img:hover, .middle-row video:hover {
+  .middle-row video:hover, .top-row img:hover, .bottom-row img:hover {
     transform: scale(1.05);
-  }
-
-  .middle-row video {
-    max-width: 300px;
-    box-shadow: 0 0 25px #00ff99;
   }
 
   .message-box {
@@ -134,6 +132,23 @@
     animation: glow 2.5s ease-in-out infinite alternate, float 6s ease-in-out infinite;
   }
 
+  /* ===== Animaciones ===== */
+  @keyframes glow {
+    from { text-shadow: 0 0 10px #00ffcc, 0 0 20px #00cc99; opacity: 0.9; }
+    to { text-shadow: 0 0 25px #00ffcc, 0 0 45px #00ff99; opacity: 1; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes zoomIn {
+    from {transform: scale(1);}
+    to {transform: scale(1.1);}
+  }
+
+  /* ===== Cursor parpadeante para Typewriter ===== */
   .message::after {
     content: '|';
     animation: blink 1s infinite;
@@ -144,29 +159,25 @@
     51%,100% {opacity:0;}
   }
 
-  @keyframes glow {
-    from { text-shadow: 0 0 10px #00ffcc,0 0 20px #00cc99; opacity:0.9;}
-    to { text-shadow:0 0 25px #00ffcc,0 0 45px #00ff99; opacity:1;}
-  }
-
-  @keyframes float {
-    0%,100% {transform: translateY(0);}
-    50% {transform: translateY(-6px);}
-  }
-
-  @keyframes zoomIn {
-    from {transform: scale(1);}
-    to {transform: scale(1.1);}
-  }
-
-  /* ===== Ajustes Responsivos ===== */
+  /* ===== Adaptación Móvil ===== */
   @media (max-width: 768px) {
-    .top-row img, .bottom-row img, .middle-row video {
-      max-width: 45vw; /* ocupan menos de la mitad de la pantalla */
+    h1 { font-size: 1.5em; }
+    h2 { font-size: 1.2em; }
+    p { font-size: 1em; }
+
+    .gallery-layout {
+      gap: 15px;
+      padding: 30px 10px;
     }
 
-    .middle-row video {
-      max-width: 50vw;
+    .top-row, .bottom-row, .middle-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .top-row img, .bottom-row img, .middle-row video {
+      max-width: 90%;
     }
 
     .message {
@@ -175,6 +186,12 @@
 
     .message-box {
       padding: 15px;
+      width: 90%;
+    }
+
+    button {
+      width: 80%;
+      font-size: 16px;
     }
   }
 </style>
@@ -227,6 +244,7 @@
 <audio id="music" src="Mil gracias te doy.mp3"></audio>
 
 <script>
+  /* ===== Fondo tipo Matrix ===== */
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   canvas.height = window.innerHeight;
@@ -241,12 +259,13 @@
       const characters = 'アァカサタナハマヤャラワガザダバパ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       const text = characters.charAt(Math.floor(Math.random()*characters.length));
       const x = index*10;
-      ctx.fillText(text,x,y);
+      ctx.fillText(text, x, y);
       letters[index] = y > canvas.height + Math.random()*1000 ? 0 : y+10;
     });
   };
   setInterval(draw,50);
 
+  /* ===== Variables ===== */
   const passwordScreen = document.getElementById('password-screen');
   const unlockButton = document.getElementById('unlockButton');
   const passwordInput = document.getElementById('passwordInput');
@@ -306,3 +325,4 @@ Recuerda que tienes un ejército entero de amor a tu lado, listo para levantarte
 </script>
 </body>
 </html>
+
