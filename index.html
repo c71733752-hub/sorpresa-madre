@@ -73,15 +73,6 @@
     display: none;
   }
 
-  .fade {
-    animation: fadeIn 3s ease-in-out;
-  }
-
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-
   .gallery-layout {
     display: flex;
     flex-direction: column;
@@ -101,12 +92,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 40px;
     flex-wrap: wrap;
   }
 
   .top-row img, .bottom-row img {
     width: 250px;
+    max-width: 90vw;
     border-radius: 15px;
     box-shadow: 0 0 20px #00ff99;
     animation: zoomIn 5s ease-in-out infinite alternate;
@@ -114,6 +106,7 @@
 
   .middle-row video {
     width: 300px;
+    max-width: 90vw;
     border-radius: 15px;
     box-shadow: 0 0 25px #00ff99;
     transition: transform 0.4s ease-in-out;
@@ -129,7 +122,6 @@
     background: rgba(0, 0, 0, 0.7);
     border-radius: 15px;
     box-shadow: 0 0 25px #00ff99;
-    animation: fadeIn 2.5s ease-in-out;
   }
 
   .message {
@@ -155,38 +147,29 @@
     to {transform: scale(1.1);}
   }
 
-  /* --- Ajuste para celulares --- */
+  /* 📱 Adaptación móvil */
   @media (max-width: 768px) {
     .gallery-layout {
-      scale: 0.9;
+      gap: 15px;
+      padding: 30px 10px;
     }
 
-    .top-row, .bottom-row {
-      flex-wrap: nowrap;
-      gap: 10px;
-    }
-
-    .middle-row {
-      flex-wrap: nowrap;
-      flex-direction: row;
-      justify-content: center;
+    .top-row, .bottom-row, .middle-row {
+      flex-direction: column;
       align-items: center;
-    }
-
-    .top-row img, .bottom-row img {
-      width: 150px;
+      gap: 20px;
     }
 
     .middle-row video {
-      width: 150px;
+      width: 90%;
     }
 
     .message {
-      font-size: 1em;
+      font-size: 1.1em;
     }
 
     .message-box {
-      max-width: 260px;
+      width: 90%;
       padding: 15px;
     }
   }
@@ -213,21 +196,18 @@
 
 <!-- Contenido sorpresa -->
 <div class="content hidden" id="gallery">
-  <div class="gallery-layout fade">
-
+  <div class="gallery-layout">
     <div class="top-row">
       <img src="foto1.jpg" alt="Foto 1">
       <img src="foto2.jpg" alt="Foto 2">
     </div>
 
     <div class="middle-row">
-      <video src="video1.mp4" autoplay loop muted></video>
-
-      <div class="message-box fade">
+      <video src="Video1.mp4" autoplay loop muted></video>
+      <div class="message-box">
         <p id="typewriter" class="message"></p>
       </div>
-
-      <video src="video2.mp4" autoplay loop muted></video>
+      <video src="Video2.mp4" autoplay loop muted></video>
     </div>
 
     <div class="bottom-row">
@@ -263,7 +243,7 @@
   };
   setInterval(draw, 50);
 
-  // Elementos
+  // Variables
   const passwordScreen = document.getElementById('password-screen');
   const unlockButton = document.getElementById('unlockButton');
   const passwordInput = document.getElementById('passwordInput');
@@ -323,6 +303,3 @@ Recuerda que tienes un ejército entero de amor a tu lado, listo para levantarte
 </script>
 </body>
 </html>
-
-
-
