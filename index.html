@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sorpresa de tu hijo 💚</title>
 <style>
+  /* ===== Estilo Base ===== */
   body {
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: auto; /* permite scroll horizontal si es necesario */
     background: black;
     color: #00ff99;
     font-family: 'Courier New', monospace;
@@ -26,12 +27,14 @@
     z-index: 1;
   }
 
+  /* ===== Pantallas ===== */
   #password-screen, #start-screen {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 400px; /* tamaño fijo igual que escritorio */
   }
 
   input[type="password"] {
@@ -42,25 +45,28 @@
     outline: none;
     text-align: center;
     margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   button {
     background: #00ff99;
     color: black;
     border: none;
-    padding: 15px 30px;
-    font-size: 20px;
+    padding: 12px 25px;
+    font-size: 18px;
     font-weight: bold;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 15px #00ff99;
+    box-shadow: 0 0 10px #00ff99;
+    margin-top: 10px;
   }
 
   button:hover {
     background: #00cc77;
-    transform: scale(1.1);
-    box-shadow: 0 0 25px #00ff99;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00ff99;
   }
 
   .error {
@@ -73,6 +79,7 @@
     display: none;
   }
 
+  /* ===== Galería ===== */
   .gallery-layout {
     display: flex;
     flex-direction: column;
@@ -81,45 +88,38 @@
     padding: 60px 0;
   }
 
-  .top-row, .bottom-row {
+  .top-row, .bottom-row, .middle-row {
     display: flex;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .middle-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* NO se reorganiza en móviles */
   }
 
   .top-row img, .bottom-row img {
-    width: 250px;
-    max-width: 90vw;
+    width: 250px; /* tamaño fijo */
+    height: auto;
     border-radius: 15px;
     box-shadow: 0 0 20px #00ff99;
     animation: zoomIn 5s ease-in-out infinite alternate;
   }
 
   .middle-row video {
-    width: 300px;
-    max-width: 90vw;
+    width: 300px; /* tamaño fijo */
+    height: auto;
     border-radius: 15px;
     box-shadow: 0 0 25px #00ff99;
     transition: transform 0.4s ease-in-out;
   }
 
-  .middle-row video:hover {
+  .top-row img:hover, .bottom-row img:hover, .middle-row video:hover {
     transform: scale(1.05);
   }
 
   .message-box {
     max-width: 420px;
+    width: 420px; /* tamaño fijo */
     padding: 25px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0,0,0,0.7);
     border-radius: 15px;
     box-shadow: 0 0 25px #00ff99;
   }
@@ -132,6 +132,7 @@
     animation: glow 2.5s ease-in-out infinite alternate, float 6s ease-in-out infinite;
   }
 
+  /* ===== Animaciones ===== */
   @keyframes glow {
     from { text-shadow: 0 0 10px #00ffcc, 0 0 20px #00cc99; opacity: 0.9; }
     to { text-shadow: 0 0 25px #00ffcc, 0 0 45px #00ff99; opacity: 1; }
@@ -147,32 +148,19 @@
     to {transform: scale(1.1);}
   }
 
-  /* 📱 Adaptación móvil */
-  @media (max-width: 768px) {
-    .gallery-layout {
-      gap: 15px;
-      padding: 30px 10px;
-    }
-
-    .top-row, .bottom-row, .middle-row {
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .middle-row video {
-      width: 90%;
-    }
-
-    .message {
-      font-size: 1.1em;
-    }
-
-    .message-box {
-      width: 90%;
-      padding: 15px;
-    }
+  /* ===== Cursor parpadeante para Typewriter ===== */
+  .message::after {
+    content: '|';
+    animation: blink 1s infinite;
   }
+
+  @keyframes blink {
+    0%,50% {opacity:1;}
+    51%,100% {opacity:0;}
+  }
+
+  /* ===== Evitamos cambios en móviles ===== */
+  /* No hay media queries, todo se mantiene igual que escritorio */
 </style>
 </head>
 <body>
@@ -203,11 +191,11 @@
     </div>
 
     <div class="middle-row">
-      <video src="Video1.mp4" autoplay loop muted></video>
+      <video src="video1.mp4" autoplay loop muted></video>
       <div class="message-box">
         <p id="typewriter" class="message"></p>
       </div>
-      <video src="Video2.mp4" autoplay loop muted></video>
+      <video src="video2.mp4" autoplay loop muted></video>
     </div>
 
     <div class="bottom-row">
@@ -223,27 +211,28 @@
 <audio id="music" src="Mil gracias te doy.mp3"></audio>
 
 <script>
-  // Fondo tipo Matrix
+  /* ===== Fondo tipo Matrix ===== */
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
   const letters = Array(300).join('1').split('');
   const draw = () => {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = '#00ff99';
     ctx.font = '15pt Courier New';
-    letters.map((y, index) => {
-      const text = String.fromCharCode(1000 + Math.random() * 1000);
-      const x = index * 10;
+    letters.map((y,index)=>{
+      const characters = 'アァカサタナハマヤャラワガザダバパ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const text = characters.charAt(Math.floor(Math.random()*characters.length));
+      const x = index*10;
       ctx.fillText(text, x, y);
-      letters[index] = y > 758 + Math.random() * 1e4 ? 0 : y + 10;
+      letters[index] = y > canvas.height + Math.random()*1000 ? 0 : y+10;
     });
   };
-  setInterval(draw, 50);
+  setInterval(draw,50);
 
-  // Variables
+  /* ===== Variables ===== */
   const passwordScreen = document.getElementById('password-screen');
   const unlockButton = document.getElementById('unlockButton');
   const passwordInput = document.getElementById('passwordInput');
@@ -279,14 +268,14 @@ Recuerda que tienes un ejército entero de amor a tu lado, listo para levantarte
 — Tu gordo poloncho 💚`;
 
   function typeWriterEffect(text, element, speed = 45) {
-    let i = 0;
-    element.innerHTML = "";
-    const interval = setInterval(() => {
-      if (i < text.length) {
+    let i=0;
+    element.innerHTML="";
+    const interval = setInterval(()=>{
+      if(i<text.length){
         element.innerHTML += text.charAt(i);
         i++;
       } else clearInterval(interval);
-    }, speed);
+    },speed);
   }
 
   startButton.addEventListener('click', () => {
