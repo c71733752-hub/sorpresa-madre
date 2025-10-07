@@ -155,10 +155,40 @@
     to {transform: scale(1.1);}
   }
 
+  /* --- Ajuste para celulares --- */
   @media (max-width: 768px) {
-    .middle-row video { width: 200px; }
-    .message { font-size: 1.1em; }
-    .message-box { max-width: 320px; }
+    .gallery-layout {
+      scale: 0.9;
+    }
+
+    .top-row, .bottom-row {
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+
+    .middle-row {
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .top-row img, .bottom-row img {
+      width: 150px;
+    }
+
+    .middle-row video {
+      width: 150px;
+    }
+
+    .message {
+      font-size: 1em;
+    }
+
+    .message-box {
+      max-width: 260px;
+      padding: 15px;
+    }
   }
 </style>
 </head>
@@ -191,13 +221,13 @@
     </div>
 
     <div class="middle-row">
-      <video src="Video1.mp4" autoplay loop muted></video>
+      <video src="video1.mp4" autoplay loop muted></video>
 
       <div class="message-box fade">
         <p id="typewriter" class="message"></p>
       </div>
 
-      <video src="Video2.mp4" autoplay loop muted></video>
+      <video src="video2.mp4" autoplay loop muted></video>
     </div>
 
     <div class="bottom-row">
@@ -211,7 +241,6 @@
 
 <audio id="voice" src="mama.mp3"></audio>
 <audio id="music" src="Mil gracias te doy.mp3"></audio>
-<audio id="typeSound" src="type.mp3"></audio>
 
 <script>
   // Fondo tipo Matrix
@@ -244,7 +273,6 @@
   const gallery = document.getElementById('gallery');
   const voice = document.getElementById('voice');
   const music = document.getElementById('music');
-  const typeSound = document.getElementById('typeSound');
   const typewriter = document.getElementById('typewriter');
 
   const CORRECT_PASSWORD = "pocaluz2803";
@@ -276,10 +304,6 @@ Recuerda que tienes un ejército entero de amor a tu lado, listo para levantarte
     const interval = setInterval(() => {
       if (i < text.length) {
         element.innerHTML += text.charAt(i);
-        if (text.charAt(i) !== " " && text.charAt(i) !== "\n") {
-          typeSound.currentTime = 0;
-          typeSound.play().catch(() => {});
-        }
         i++;
       } else clearInterval(interval);
     }, speed);
